@@ -1,4 +1,4 @@
-package ch.frauenfelderflorian.positionsplugin.data;
+package me.frauenfelderflorian.positionsplugin.data;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -48,19 +48,28 @@ public class Positions {
     }
 
     public void add(String name, Location location) {
-        this.usablePositions.put(name, location);
+        usablePositions.put(name, location);
+        save();
+    }
+
+    public void delete(String name) {
+        usablePositions.remove(name);
+        save();
+    }
+
+    public void clearAll() {
+        usablePositions.clear();
         save();
     }
 
     public String positionToString(String name) {
-        return name + ": " + this.usablePositions.get(name).getBlockX() + "  "
-                + this.usablePositions.get(name).getBlockY() + "  "
-                + this.usablePositions.get(name).getBlockZ();
+        return name + ": " + usablePositions.get(name).getBlockX() + "  " + usablePositions.get(name).getBlockY()
+                + "  " + usablePositions.get(name).getBlockZ();
     }
 
     public void save() {
-        File f = new File(this.fileName);
-        this.savablePositions.clear();
+        File f = new File(fileName);
+        savablePositions.clear();
         try {
             boolean fileCreated = f.createNewFile();
             if (fileCreated) {
@@ -71,12 +80,12 @@ public class Positions {
             Logger.getLogger(Positions.class.getName()).log(Level.SEVERE, "filesystem error", e);
         }
         try {
-            FileWriter writer = new FileWriter(this.fileName);
-            for (Map.Entry<String, Location> entry : this.usablePositions.entrySet()) {
+            FileWriter writer = new FileWriter(fileName);
+            for (Map.Entry<String, Location> entry : usablePositions.entrySet()) {
                 ArrayList<String> value = locationGetArrayList(entry.getValue());
-                this.savablePositions.put(entry.getKey(), value);
+                savablePositions.put(entry.getKey(), value);
             }
-            yaml.dump(this.savablePositions, writer);
+            yaml.dump(savablePositions, writer);
             Bukkit.broadcastMessage("saved positions to positions file");
         } catch (IOException e) {
             Logger.getLogger(Positions.class.getName()).log(Level.SEVERE, "file error", e);
@@ -86,16 +95,16 @@ public class Positions {
 
     public void load() {
         try {
-            FileReader input = new FileReader(this.fileName);
-            this.savablePositions = yaml.load(input);
+            FileReader input = new FileReader(fileName);
+            savablePositions = yaml.load(input);
         } catch (FileNotFoundException e) {
             Logger.getLogger(Positions.class.getName()).log(Level.SEVERE, "file error", e);
             Bukkit.broadcastMessage("file not found");
         }
-        for (Map.Entry<String, ArrayList<String>> entry : this.savablePositions.entrySet()) {
+        for (Map.Entry<String, ArrayList<String>> entry : savablePositions.entrySet()) {
             ArrayList<String> value = new ArrayList<>(entry.getValue());
             Location loc = arrayListGetLocation(value);
-            this.usablePositions.put(entry.getKey(), loc);
+            usablePositions.put(entry.getKey(), loc);
         }
         Bukkit.broadcastMessage("positions loaded from file");
     }
