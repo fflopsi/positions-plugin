@@ -1,0 +1,14 @@
+name: Positions
+version: ${project.version}
+main: ch.frauenfelderflorian.positionsplugin.PositionsPlugin
+api-version: 1.16
+authors: [ flopsi_ ]
+description: a Minecraft Spigot plugin for saving and loading positions
+commands:
+  position:
+    description: save, view, delete positions for later use
+    usage: /<command> <options> <name>
+    aliases:
+      - pos
+      - location
+      - loc
