@@ -1,6 +1,6 @@
 name: Positions
 version: ${project.version}
-main: ch.frauenfelderflorian.positionsplugin.PositionsPlugin
+main: me.frauenfelderflorian.positionsplugin.PositionsPlugin
 api-version: 1.16
 authors: [ flopsi_ ]
 description: a Minecraft Spigot plugin for saving and loading positions

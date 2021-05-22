@@ -1,6 +1,6 @@
-package ch.frauenfelderflorian.positionsplugin.command;
+package me.frauenfelderflorian.positionsplugin.command;
 
-import ch.frauenfelderflorian.positionsplugin.PositionsPlugin;
+import me.frauenfelderflorian.positionsplugin.PositionsPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -12,39 +12,38 @@ import java.util.List;
 
 public class PositionCompleter implements TabCompleter {
     private final PositionsPlugin plugin;
+    private final ArrayList<String> NAME_COMMANDS;
     private final ArrayList<String> COMMANDS;
     private final ArrayList<String> POSITIONS;
-    private final ArrayList<String> COMPLETION;
 
     public PositionCompleter(PositionsPlugin plugin) {
         this.plugin = plugin;
+        NAME_COMMANDS = new ArrayList<>();
+        NAME_COMMANDS.add("add");
+        NAME_COMMANDS.add("show");
+        NAME_COMMANDS.add("tp");
+        NAME_COMMANDS.add("del");
         COMMANDS = new ArrayList<>();
-        COMMANDS.add("-del");
-        COMMANDS.add("-tp");
-        COMMANDS.add("-list");
-        COMMANDS.add("-save");
-        COMMANDS.add("-load");
-        COMMANDS.add("-info");
+        COMMANDS.addAll(NAME_COMMANDS);
+        COMMANDS.add("list");
+        COMMANDS.add("clear");
+        COMMANDS.add("info");
         POSITIONS = new ArrayList<>();
-        COMPLETION = new ArrayList<>();
         reload();
     }
 
     public void reload() {
         POSITIONS.clear();
-        COMPLETION.clear();
         POSITIONS.addAll(plugin.positions.usablePositions.keySet());
-        COMPLETION.addAll(COMMANDS);
-        COMPLETION.addAll(POSITIONS);
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         final ArrayList<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            StringUtil.copyPartialMatches(args[0], COMPLETION, completions);
+            StringUtil.copyPartialMatches(args[0], COMMANDS, completions);
         } else if (args.length == 2) {
-            for (String str : COMMANDS) {
+            for (String str : NAME_COMMANDS) {
                 if (args[0].equals(str)) {
                     StringUtil.copyPartialMatches(args[1], POSITIONS, completions);
                 }
