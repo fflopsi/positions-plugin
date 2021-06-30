@@ -19,10 +19,10 @@ public class Positions {
     private final Yaml yaml;
 
     public Positions(String filename) {
-        this.usablePositions = new HashMap<>();
-        this.savablePositions = new HashMap<>();
         this.fileName = filename;
-        this.yaml = new Yaml();
+        usablePositions = new HashMap<>();
+        savablePositions = new HashMap<>();
+        yaml = new Yaml();
     }
 
     private ArrayList<String> locationGetArrayList(Location loc) {
