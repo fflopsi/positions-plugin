@@ -16,8 +16,7 @@ public final class PositionsPlugin extends JavaPlugin {
     private static final String[] INFO = {
             "This is a plugin written by Florian Frauenfelder for Minecraft Spigot.",
             "A command consists of the following parts, separated by a whitespace: " +
-                    "\"/position\" (or one of the aliases \"/pos\", \"/location\", \"/loc\"), " +
-                    "an option (and optionally the name of the position).",
+                    "\"/position\" (or the alias \"/pos\"), an option (and optionally the name of the position).",
             "The options are these:",
             "add: add new / overwrite position (at location of player) (name needed)",
             "show: show saved position (name needed)",

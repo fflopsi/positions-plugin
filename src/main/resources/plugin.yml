@@ -10,5 +10,3 @@ commands:
     usage: /<command> <options> <name>
     aliases:
       - pos
-      - location
-      - loc
