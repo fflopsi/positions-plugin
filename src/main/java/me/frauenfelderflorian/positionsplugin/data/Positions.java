@@ -97,15 +97,21 @@ public class Positions {
         try {
             FileReader input = new FileReader(fileName);
             savablePositions = yaml.load(input);
+            Bukkit.broadcastMessage("positions loaded from file");
         } catch (FileNotFoundException e) {
-            Logger.getLogger(Positions.class.getName()).log(Level.SEVERE, "file error", e);
-            Bukkit.broadcastMessage("file not found");
+            Bukkit.broadcastMessage("positions file not found");
+            try {
+                boolean fileCreated = new File(fileName).createNewFile();
+                if (fileCreated)
+                    Bukkit.broadcastMessage("new positions file created");
+            } catch (IOException ioException) {
+                Bukkit.broadcastMessage("could not create new positions file");
+            }
         }
         for (Map.Entry<String, ArrayList<String>> entry : savablePositions.entrySet()) {
             ArrayList<String> value = new ArrayList<>(entry.getValue());
             Location loc = arrayListGetLocation(value);
             usablePositions.put(entry.getKey(), loc);
         }
-        Bukkit.broadcastMessage("positions loaded from file");
     }
 }
